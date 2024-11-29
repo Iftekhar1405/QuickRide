@@ -1,6 +1,6 @@
 import {
+  Avatar,
   Box,
-  Container,
   Flex,
   HStack,
   Heading,
@@ -18,19 +18,9 @@ import {
 } from "react-icons/fa";
 
 const Testimonial = ({ name, quote, avatar }) => (
-  <Box
-    bg="gray"
-    p={8}
-    borderRadius="xl"
-    boxShadow="md"
-    // position="relative"
-    // maxWidth="350px"
-    height={"md"}
-    width={"md"}
-  >
+  <Box bg="white" p={6} borderRadius="xl" boxShadow="md" m={10}>
     <Icon
       as={FaQuoteLeft}
-      position="absolute"
       top={4}
       left={4}
       color="blue.500"
@@ -40,8 +30,8 @@ const Testimonial = ({ name, quote, avatar }) => (
     <Text mb={4} fontStyle="italic">
       "{quote}"
     </Text>
-    <Flex align="center" p={12}>
-      {/* <Avatar src={avatar} mr={4} /> */}
+    <Flex align="center">
+      <Avatar src={avatar} mr={4} />
       <VStack align="start" spacing={0}>
         <Text fontWeight="bold">{name}</Text>
         <HStack spacing={1} color="yellow.400">
@@ -56,12 +46,12 @@ const Testimonial = ({ name, quote, avatar }) => (
 
 const FeatureCard = ({ icon, title, description }) => (
   <Box
-    bg="blue.100"
-    p={12}
+    bg="white"
+    p={6}
     borderRadius="xl"
     boxShadow="md"
     textAlign="center"
-    m={50}
+    maxWidth="250px"
   >
     <Icon as={icon} fontSize="4xl" color="blue.500" mb={4} />
     <Heading size="md" mb={2}>
@@ -70,72 +60,51 @@ const FeatureCard = ({ icon, title, description }) => (
     <Text>{description}</Text>
   </Box>
 );
-
 const Features = () => {
   return (
     <>
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        bg="blackAlpha.600"
-        zIndex={1}
-      />
+      <HStack spacing={6} justify="center" wrap="wrap">
+        <FeatureCard
+          icon={FaCar}
+          title="Wide Range of Vehicles"
+          description="From economical to luxury, we have it all."
+        />
+        <FeatureCard
+          icon={FaShieldAlt}
+          title="100% Safe & Secure"
+          description="Your safety is our top priority."
+        />
+      </HStack>
 
-      <Container position="relative" zIndex={2}>
-        <Flex
-          direction={{ base: "column", lg: "row" }}
-          gap={10}
-          alignItems="stretch"
-        >
-          <VStack spacing={10} align="stretch" flex={1}>
-            <HStack spacing={6} justify="center" wrap="wrap">
-              <FeatureCard
-                icon={FaCar}
-                title="Wide Range of Vehicles"
-                description="From economical to luxury, we have it all."
-              />
-              <FeatureCard
-                icon={FaShieldAlt}
-                title="100% Safe & Secure"
-                description="Your safety is our top priority."
-              />
-            </HStack>
+      <HStack spacing={6} justify="center" wrap="wrap">
+        <Testimonial
+          name="John Doe"
+          quote="Amazing service! Always on time and professional."
+          avatar="/api/placeholder/100/100"
+        />
+        <Testimonial
+          name="Jane Smith"
+          quote="The most reliable taxi service in the city."
+          avatar="/api/placeholder/100/100"
+        />
+      </HStack>
 
-            <HStack spacing={6} justify="center" wrap="wrap">
-              <Testimonial
-                name="John Doe"
-                quote="Amazing service! Always on time and professional."
-                avatar="/api/placeholder/100/100"
-              />
-              <Testimonial
-                name="Jane Smith"
-                quote="The most reliable taxi service in the city."
-                avatar="/api/placeholder/100/100"
-              />
-            </HStack>
-
-            <Flex
-              bg="white"
-              p={6}
-              borderRadius="xl"
-              boxShadow="md"
-              align="center"
-              justify="center"
-            >
-              <Icon as={FaPhoneAlt} mr={4} color="blue.500" fontSize="2xl" />
-              <VStack align="start" spacing={1}>
-                <Text fontWeight="bold" fontSize="lg">
-                  24/7 Customer Support
-                </Text>
-                <Text>+91 9977079639</Text>
-              </VStack>
-            </Flex>
-          </VStack>
-        </Flex>
-      </Container>
+      <Flex
+        bg="white"
+        p={6}
+        borderRadius="xl"
+        boxShadow="md"
+        align="center"
+        justify="center"
+      >
+        <Icon as={FaPhoneAlt} mr={4} color="blue.500" fontSize="2xl" />
+        <VStack align="start" spacing={1}>
+          <Text fontWeight="bold" fontSize="lg">
+            24/7 Customer Support
+          </Text>
+          <Text>+91 9977079639</Text>
+        </VStack>
+      </Flex>
     </>
   );
 };

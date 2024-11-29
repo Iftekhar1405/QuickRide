@@ -10,7 +10,7 @@ import {
   Tabs,
   extendTheme,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import BookingForm from "./BookingForm";
 
 // Custom theme for a more elegant look

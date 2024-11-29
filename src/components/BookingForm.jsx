@@ -11,11 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
-// Validation schema
 const bookingSchema = yup.object().shape({
   pickupLocation: yup.string().required("Pickup location is required"),
   dropoffLocation: yup.string().required("Dropoff location is required"),
@@ -33,18 +31,13 @@ const bookingSchema = yup.object().shape({
 
 const sendBookingData = async (data) => {
   try {
-    const response = await axios.post(
-      "https://your-backend-api.com/bookings",
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response.data; // Return the response data
+    const response = await axios.post("http://localhost:3000/bookings", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   } catch (error) {
-    // Handle the error response
     const errorMessage =
       error.response?.data?.message || "Failed to book taxi. Please try again.";
     throw new Error(errorMessage);
@@ -76,7 +69,7 @@ const BookingForm = ({ bookingType }) => {
         isClosable: true,
       });
     } catch (error) {
-      console.error("Booking Failed:", error.message);
+      console.error(error);
       toast({
         title: "Booking Failed",
         description: error.message,
@@ -94,7 +87,7 @@ const BookingForm = ({ bookingType }) => {
           name="pickupLocation"
           control={control}
           render={({ field }) => (
-            <FormControl isInvalid={errors.pickupLocation}>
+            <FormControl>
               <FormLabel>Pickup Location</FormLabel>
               <Input {...field} placeholder="Enter pickup address" />
               <FormErrorMessage>
@@ -105,14 +98,14 @@ const BookingForm = ({ bookingType }) => {
         />
 
         <Controller
-          name="pickupLocation"
+          name="dropoffLocation"
           control={control}
           render={({ field }) => (
-            <FormControl isInvalid={errors.pickupLocation}>
-              <FormLabel>Pickup Location</FormLabel>
-              <Input {...field} placeholder="Enter pickup address" />
+            <FormControl isInvalid={errors.dropoffLocation}>
+              <FormLabel>Dropoff Location</FormLabel>
+              <Input {...field} placeholder="Enter destination address" />
               <FormErrorMessage>
-                {errors.pickupLocation?.message}
+                {errors.dropoffLocation?.message}
               </FormErrorMessage>
             </FormControl>
           )}
