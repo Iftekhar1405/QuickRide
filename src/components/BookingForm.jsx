@@ -10,12 +10,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 
-// Validation schema
 const bookingSchema = yup.object().shape({
-  // pickupLocation: yup.string().required("Pickup location is required"),
+  pickupLocation: yup.string().required("Pickup location is required"),
   dropoffLocation: yup.string().required("Dropoff location is required"),
   name: yup.string().required("Name is required"),
   phone: yup
@@ -28,6 +28,21 @@ const bookingSchema = yup.object().shape({
     then: yup.date().required("Booking date and time is required"),
   }),
 });
+
+const sendBookingData = async (data) => {
+  try {
+    const response = await axios.post("http://localhost:3000/bookings", data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to book taxi. Please try again.";
+    throw new Error(errorMessage);
+  }
+};
 
 const BookingForm = ({ bookingType }) => {
   const toast = useToast();
@@ -44,8 +59,8 @@ const BookingForm = ({ bookingType }) => {
 
   const onSubmit = async (data) => {
     try {
-      // Here you would typically send data to backend
-      console.log(data);
+      const result = await sendBookingData(data);
+      console.log("Booking Successful:", result);
       toast({
         title: "Booking Successful",
         description: "Your taxi has been booked!",
@@ -54,6 +69,7 @@ const BookingForm = ({ bookingType }) => {
         isClosable: true,
       });
     } catch (error) {
+      console.error(error);
       toast({
         title: "Booking Failed",
         description: error.message,
@@ -65,21 +81,21 @@ const BookingForm = ({ bookingType }) => {
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <VStack spacing={4}>
-        {/* <Controller
+        <Controller
           name="pickupLocation"
           control={control}
           render={({ field }) => (
             <FormControl>
               <FormLabel>Pickup Location</FormLabel>
+              <Input {...field} placeholder="Enter pickup address" />
               <FormErrorMessage>
                 {errors.pickupLocation?.message}
               </FormErrorMessage>
             </FormControl>
           )}
-        /> */}
-        <Input placeholder="Enter pickup address" />
+        />
 
         <Controller
           name="dropoffLocation"
